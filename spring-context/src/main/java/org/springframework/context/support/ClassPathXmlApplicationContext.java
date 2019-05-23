@@ -141,6 +141,7 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 		super(parent);
 		setConfigLocations(configLocations);
 		if (refresh) {
+			//我们可以通过调用refresh方法将原来的ApplicationContext销毁，重新执行初始化操作
 			refresh();
 		}
 	}
