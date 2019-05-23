@@ -72,7 +72,6 @@ dependencies {
 
 	compile(files(cglibRepackJar))
 	compile(files(objenesisRepackJar))
-	compile(project(":spring-jcl"))
 	compileOnly(project(":spring-core-coroutines"))
 	optional("net.sf.jopt-simple:jopt-simple:5.0.4")
 	optional("org.aspectj:aspectjweaver:${aspectjVersion}")
