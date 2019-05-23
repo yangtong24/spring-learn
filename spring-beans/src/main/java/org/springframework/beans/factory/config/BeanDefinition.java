@@ -36,6 +36,13 @@ import org.springframework.lang.Nullable;
  * @see ConfigurableListableBeanFactory#getBeanDefinition
  * @see org.springframework.beans.factory.support.RootBeanDefinition
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
+ *
+ * BeanDefinition保存了bean的一些重要信息
+ * 1.bean的单例和prototype
+ * 2.bean是否懒加载
+ * 3.bean依赖了其他哪些bean
+ * 4.当注入bean时，有多个候选bean，当前bean是不是第一个候选的(primary)
+ * 5.等等。。。
  */
 public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
