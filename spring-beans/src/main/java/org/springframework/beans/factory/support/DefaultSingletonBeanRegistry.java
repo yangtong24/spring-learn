@@ -171,17 +171,23 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @param beanName the name of the bean to look for
 	 * @param allowEarlyReference whether early references should be created or not
 	 * @return the registered singleton object, or {@code null} if none found
+	 * 根据bean的名称，检查bean是否已经实例化，allowEarlyReference否允许早期引用用来解决循环依赖问题，
 	 */
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+		//根据name从map中获取bean
 		Object singletonObject = this.singletonObjects.get(beanName);
+
+		//如果map中不存在bean实例对象， 并且bean正在创建中
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			synchronized (this.singletonObjects) {
+				//早期引用的bean(bean还在创建过程中，提早曝光加入了缓存)
 				singletonObject = this.earlySingletonObjects.get(beanName);
 				if (singletonObject == null && allowEarlyReference) {
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 					if (singletonFactory != null) {
 						singletonObject = singletonFactory.getObject();
+						//添加到earlySingletonObjects中， earlySingletonObjects和singletonFactories互斥
 						this.earlySingletonObjects.put(beanName, singletonObject);
 						this.singletonFactories.remove(beanName);
 					}
