@@ -266,7 +266,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
 
-			//只有在单例的情况下才会尝试解决循环依赖的问题
+			//只有在单例的情况下才会尝试解决循环依赖的问题, 因为prototype类型bean，没有添加到缓存中
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
@@ -324,6 +324,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
+							//创建bean
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
