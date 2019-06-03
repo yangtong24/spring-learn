@@ -246,7 +246,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		final String beanName = transformedBeanName(name);
 		Object bean;
 
-		// Eagerly check singleton cache for manually registered singletons.
 		//检查是否已经创建过bean了
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
