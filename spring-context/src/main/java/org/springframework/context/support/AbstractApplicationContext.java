@@ -514,13 +514,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
-			//创建bean前准备工作
+			// 准备刷新上下文环境
 			prepareRefresh();
 
-			//创建bean容器， 加载并注册bean
+			// 初始化beanFactory, xml文件读取
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
-			//设置BeanFactory类加载器，添加BeanFactory的处理器
+			// 对beanFactory功能填充
 			prepareBeanFactory(beanFactory);
 
 			try {
@@ -561,7 +561,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Destroy already created singletons to avoid dangling resources.
 				destroyBeans();
 
-				// Reset 'active' flag.
+				// refresh()过程出现异常了，需要把active状态设为false
 				cancelRefresh(ex);
 
 				// Propagate exception to caller.
@@ -581,7 +581,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * active flag as well as performing any initialization of property sources.
 	 */
 	protected void prepareRefresh() {
-		// Switch to active.
+		// 初始化设置一些标志
 		this.startupDate = System.currentTimeMillis();
 		this.closed.set(false);
 		this.active.set(true);
@@ -601,6 +601,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// 校验配置文件
 		getEnvironment().validateRequiredProperties();
 
+		// 如果early listeners是null，初始化一个LinkedHashSet用来存放listener保证监听器的顺序
+		// 如果listeners不为null，则需要清理listeners, 再初始化
 		// Store pre-refresh ApplicationListeners...
 		if (this.earlyApplicationListeners == null) {
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);
