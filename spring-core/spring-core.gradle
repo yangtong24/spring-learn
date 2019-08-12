@@ -68,11 +68,9 @@ dependencies {
 	cglib("cglib:cglib:${cglibVersion}@jar")
 	objenesis("org.objenesis:objenesis:${objenesisVersion}@jar")
 	jarjar("org.pantsbuild:jarjar:1.7.2")
-	coroutines(project(":spring-core-coroutines"))
 
 	compile(files(cglibRepackJar))
 	compile(files(objenesisRepackJar))
-	compileOnly(project(":spring-core-coroutines"))
 	optional("net.sf.jopt-simple:jopt-simple:5.0.4")
 	optional("org.aspectj:aspectjweaver:${aspectjVersion}")
 	optional("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -90,7 +88,6 @@ dependencies {
 	testCompile("com.fasterxml.woodstox:woodstox-core:5.2.0") {
 		exclude group: "stax", module: "stax-api"
 	}
-	testCompile(project(":spring-core-coroutines"))
 }
 
 jar {
