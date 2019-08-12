@@ -265,12 +265,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
 
-			//只有在单例的情况下才会尝试解决循环依赖的问题, 因为prototype类型bean，没有添加到缓存中
+			//只有在单例的情况下才会尝试解决循环依赖的问题,
+			// 因为prototype类型bean，没有添加到缓存中,如果存在循环依赖，直接抛出异常
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
 
-			// Check if bean definition exists in this factory.
+			// 检查parentBeanFactory中是否已经存在bean了
 			BeanFactory parentBeanFactory = getParentBeanFactory();
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
@@ -292,6 +293,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 
+			// 我们可以方法的注释上面看到，typeCheckOnly这个字段只是一个标记， 是真的需要创建bean还是校验
 			if (!typeCheckOnly) {
 				markBeanAsCreated(beanName);
 			}
